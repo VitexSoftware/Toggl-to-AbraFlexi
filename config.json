@@ -1,0 +1,17 @@
+{
+    "EASE_APPNAME": "Toggl2FlexiBee",
+    "EASE_LOGGER": "syslog",
+    
+    "FLEXIBEE_URL": "https:\/\/demo.flexibee.eu:5434",
+    "FLEXIBEE_LOGIN": "admin",
+    "FLEXIBEE_PASSWORD": "xxxxxxx",
+    "FLEXIBEE_COMPANY": "vitex_software",
+    "FLEXIBEE_CUSTOMER": "CUSTOMER",
+    
+    "FLEXIBEE_TYP_FAKTURY": "FAKTURA",
+    "FLEXIBEE_CENIK": "WORK",
+    
+    "TOGGLE_USER": "",
+    "TOGGLE_TOKEN": "faxxbxex08f983e93x49exx2fbd385xx",
+    "debug": "false"
+}

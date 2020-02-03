@@ -1,0 +1,23 @@
+{
+    "name": "vitexsoftware/toggl-to-flexi-bee",
+    "description": "Description of project Toggl to FlexiBee.",
+    "authors": [
+        {
+            "name": "Vitex",
+            "email": "info@vitexsoftware.cz"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ajt/guzzle-toggl": "dev-master",
+        "spoje.net/flexibee": "dev-master",
+        "vitexsoftware/ease-twbootstrap4": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Toggl2FlexiBee\\": "src/Toggl2FlexiBee/",
+            "Toggl2FlexiBee\\ui\\": "src/Toggl2FlexiBee/ui/",
+            "Test\\Toggl2FlexiBee\\": "testing/src/Toggl2FlexiBee/"
+        }
+    }
+}
