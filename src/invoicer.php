@@ -60,7 +60,7 @@ echo '</pre>';
 
 $invoicer = new FakturaVydana([
     'typDokl' => \FlexiPeeHP\FlexiBeeRO::code('FAKTURA'),
-    'firma' => \FlexiPeeHP\FlexiBeeRO::code($oPage->getRequestValue('firma') ? current($oPage->getRequestValue('firma')) : null),
+    'firma' => \FlexiPeeHP\FlexiBeeRO::code($oPage->getRequestValue('firma') ? current($oPage->getRequestValue('firma')) : Shared::instanced()->getConfigValue('FLEXIBEE_CUSTOMER')),
     'popis' => sprintf(_('Work from %s to %s'), WebPage2::getRequestValue('since'), WebPage2::getRequestValue('until'))
     ]);
 
