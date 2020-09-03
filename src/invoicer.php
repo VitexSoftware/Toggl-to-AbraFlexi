@@ -69,11 +69,10 @@ $invoicer = new FakturaVydana([
 $invoicer->takeItemsFromArray($invoiceItems);
 $created = $invoicer->sync();
 
-$invoiceTabs = new \Ease\TWB4\Tabs('Invoices');
+$invoiceTabs = new \Ease\TWB4\Tabs(null,['id'=>'Invoices']);
 
-//$invoiceTabs->addTab(_('Html'),
-//    new \FlexiPeeHP\ui\EmbedResponsiveHTML($invoicer));
-//$invoiceTabs->addTab(_('PDF'), new \FlexiPeeHP\ui\EmbedResponsivePDF($invoicer));
+$invoiceTabs->addTab(_('Html'),new \FlexiPeeHP\ui\EmbedResponsiveHTML($invoicer));
+$invoiceTabs->addTab(_('PDF'), new \FlexiPeeHP\ui\EmbedResponsivePDF($invoicer));
 
 $oPage->addItem(new \Ease\TWB4\Container(new \Ease\TWB4\Panel('Doklad '.new \Ease\Html\ATag($invoicer->getApiUrl(),
                 $invoicer->getDataValue('kod')).' '.($created ? 'byl' : 'nebyl').' vystaven',

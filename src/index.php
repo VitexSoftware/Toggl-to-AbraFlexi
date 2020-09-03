@@ -1,4 +1,5 @@
 <?php
+
 namespace Toggl2FlexiBee;
 
 use AJT\Toggl\TogglClient;
@@ -12,7 +13,6 @@ use Ease\TWB4\Form;
 use Ease\TWB4\SubmitButton;
 use Ease\TWB4\WebPage;
 
-
 require_once '../vendor/autoload.php';
 
 Shared::instanced()->loadConfig('../config.json', true);
@@ -24,9 +24,9 @@ session_start();
 $oPage = new WebPage('Toggle2FlexiBee');
 
 $toggl_client = TogglClient::factory(array('api_key' => Shared::instanced()->getConfigValue('TOGGLE_TOKEN'),
-        'debug' => false));
+            'debug' => false));
 
-$cstmrForm = new Form('cstmr', 'invoicer.php');
+$cstmrForm = new Form(['name' => 'cstmr', 'action' => 'invoicer.php']);
 
 
 //$cstmrForm->addInput(new SearchBox('firma[0]', constant('FLEXIBEE_CUSTOMER'),
@@ -39,9 +39,9 @@ $cstmrForm = new Form('cstmr', 'invoicer.php');
 //
 
 $cstmrForm->addInput(new InputDateTag('since',
-        new DateTime("first day of last month")), _('From'));
+                new DateTime("first day of last month")), _('From'));
 $cstmrForm->addInput(new InputDateTag('until',
-        new DateTime("last day of last month")), _('To'));
+                new DateTime("last day of last month")), _('To'));
 
 
 foreach ($toggl_client->GetWorkspaces() as $workspaceInfo) {
@@ -49,7 +49,7 @@ foreach ($toggl_client->GetWorkspaces() as $workspaceInfo) {
 }
 
 $cstmrForm->addInput(new SelectTag('workspace', $wssel),
-    _('Workspace'));
+        _('Workspace'));
 
 //$cstmrForm->addInput(new \FlexiPeeHP\ui\RecordTypeSelect(
 //        new \FlexiPeeHP\FlexiBeeRO(null, ['evidence' => 'typ-faktury-vydane']),

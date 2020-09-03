@@ -1,5 +1,5 @@
 {
-    "name": "vitexsoftware/toggl-to-flexi-bee",
+    "name": "vitexsoftware/toggl-to-flexibee",
     "description": "Description of project Toggl to FlexiBee.",
     "authors": [
         {
@@ -7,11 +7,12 @@
             "email": "info@vitexsoftware.cz"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "ajt/guzzle-toggl": "dev-master",
-        "spoje.net/flexibee": "dev-master",
-        "vitexsoftware/ease-twbootstrap4": "dev-master"
+        "ajt/guzzle-toggl": "*",
+        "spojenet/flexibee": "*",
+        "vitexsoftware/flexibee-bricks": "dev-master",
+        "vitexsoftware/ease-twbootstrap4": "*"
     },
     "autoload": {
         "psr-4": {
@@ -19,5 +20,7 @@
             "Toggl2FlexiBee\\ui\\": "src/Toggl2FlexiBee/ui/",
             "Test\\Toggl2FlexiBee\\": "testing/src/Toggl2FlexiBee/"
         }
+    },
+    "require-dev": {
     }
 }
