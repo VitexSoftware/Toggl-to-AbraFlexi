@@ -1,2 +1,4 @@
 /vendor/
 /nbproject/private/
+/.env
+/debian/.debhelper/

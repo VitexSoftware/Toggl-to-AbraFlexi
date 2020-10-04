@@ -1,0 +1,16 @@
+Source: flexibee-toggl-importer
+Section: web
+Priority: optional
+Maintainer: "Vítězslav Dvořák" <info@vitexsoftware.cz>t
+Build-Depends: debhelper (>=11~),composer
+Standards-Version: 4.1.4
+Homepage: https://github.com/Vitexus/Toggl-to-FlexiBee
+
+Package: flexibee-toggl-importer
+Multi-Arch: foreign
+Depends: ${misc:Depends}, php-cli, php-imap, php-zip, php-spojenet-flexibee
+Suggests: flexibee-server,php-flexibee-config, flexibee-digest, flexibee-matcher, flexibee-reminder, flexibee-contract-invoices, multi-flexibee-setup, toggldesktop 
+Architecture: all
+Description: issue FlexiBee invoice using Toggl Time Entries
+ Commandline tool i used to issue FlexiBee invoice using Toggl API. Process all 
+ time records within given scope into invoice with items grouped by Clients.

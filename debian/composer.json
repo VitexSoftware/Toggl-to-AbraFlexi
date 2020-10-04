@@ -1,0 +1,46 @@
+{
+    "name": "deb/flexibee-toggl-importer",
+    "description": "issue FlexiBee invoice using Toggl Time Entries",
+    "type": "project",
+    "version": "0.8",
+    "authors": [
+        {
+            "name": "Vítězslav Dvořák",
+            "toggl": "info@vitexsoftware.cz"
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "vendor-dir": "/var/lib/flexibee-toggl-importer"
+    },
+    "require": {
+        "ajt/guzzle-toggl": "*",
+        "deb/flexibee": "*",
+        "deb/flexibee-bricks": "*",
+        "deb/ease-twbootstrap4": "*",
+        "vlucas/phpdotenv": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Toggl2FlexiBee\\": "/usr/share/flexibee-toggl-importer/Toggl2FlexiBee/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/usr/share/php/EaseCore"
+        },
+        {
+            "type": "path",
+            "url": "/usr/share/php/FlexiPeeHP"
+        },
+        {
+            "type": "path",
+            "url": "/usr/share/php/EaseBricks"
+        },
+        {
+            "type": "path",
+            "url": "/usr/share/php/EaseTWB4"
+        }
+    ]
+}

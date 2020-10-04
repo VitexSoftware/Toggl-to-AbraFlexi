@@ -1,6 +1,6 @@
 {
-    "name": "vitexsoftware/toggl-to-flexibee",
-    "description": "Description of project Toggl to FlexiBee.",
+    "name": "vitexsoftware/flexibee-toggl-importer",
+    "description": "issue FlexiBee invoice using Toggl Time Entries",
     "authors": [
         {
             "name": "Vitex",
@@ -12,7 +12,8 @@
         "ajt/guzzle-toggl": "*",
         "spojenet/flexibee": "*",
         "vitexsoftware/flexibee-bricks": "dev-master",
-        "vitexsoftware/ease-twbootstrap4": "*"
+        "vitexsoftware/ease-twbootstrap4": "*",
+        "vlucas/phpdotenv": "dev-master"
     },
     "autoload": {
         "psr-4": {

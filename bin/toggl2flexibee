@@ -1,0 +1,4 @@
+#!/bin/bash
+php -f /usr/share/flexibee-toggl-importer/importer.php
+
+
