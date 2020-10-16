@@ -2,7 +2,7 @@ Toggl to FlexiBee
 =================
 
 
-Process all time records within given scope into invoice with items grouped by Clients
+Process all time records within given scope into invoice with items grouped by Clients + Also the CSV Timesheet is attached to Invoice.
 
 
 Commandline tool i used to issue FlexiBee invoice using Toggl API
