@@ -1,7 +1,7 @@
 Source: flexibee-toggl-importer
 Section: web
 Priority: optional
-Maintainer: "Vítězslav Dvořák" <info@vitexsoftware.cz>t
+Maintainer: "Vítězslav Dvořák" <info@vitexsoftware.cz>
 Build-Depends: debhelper (>=11~),composer
 Standards-Version: 4.1.4
 Homepage: https://github.com/Vitexus/Toggl-to-FlexiBee

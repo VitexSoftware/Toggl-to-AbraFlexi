@@ -16,7 +16,7 @@ Configuration
 Example environment or .env file contents 
 
 ```
-TOGGLE_WORKSPACE=123455
+TOGGLE_WORKSPACE=123455,12212121
 TOGGLE_SCOPE=last_month
 TOGGLE_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -28,6 +28,8 @@ FLEXIBEE_CUSTOMER="DEMO"
 FLEXIBEE_TYP_FAKTURY="FAKTURA"
 FLEXIBEE_CENIK="WORK"
 ```
+
+If workspace number is empty, use all availble workspaces 
 
 Running
 -------

@@ -10,10 +10,8 @@
     "minimum-stability": "stable",
     "require": {
         "ajt/guzzle-toggl": "*",
-        "spojenet/flexibee": "*",
-        "vitexsoftware/flexibee-bricks": "dev-master",
-        "vitexsoftware/ease-twbootstrap4": "*",
-        "vlucas/phpdotenv": "dev-master"
+        "vitexsoftware/flexibee-bricks": "*",
+        "vitexsoftware/ease-twbootstrap4": "*"
     },
     "autoload": {
         "psr-4": {
