@@ -31,6 +31,8 @@ FLEXIBEE_CENIK="WORK"
 
 If workspace number is empty, use all availble workspaces 
 
+Scope can be: **last_month** or  **previous_month**
+
 Running
 -------
 

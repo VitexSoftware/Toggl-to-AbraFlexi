@@ -106,6 +106,11 @@ class Importer extends FakturaVydana {
                 $this->until = new \DateTime("last day of last month");
                 break;
 
+            case 'previous_month':
+                $this->since = new \DateTime("first day of -2 month");
+                $this->until = new \DateTime("last day of -2 month");
+                break;
+
             default:
                 throw new \Ease\Exception('Unknown scope ' . $scope);
                 break;
