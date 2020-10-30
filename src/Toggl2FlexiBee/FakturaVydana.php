@@ -47,14 +47,10 @@ class FakturaVydana extends \FlexiPeeHP\FakturaVydana {
      * @param array $timeEntries
      */
     public function takeItemsFromArray($timeEntries) {
-
-
         foreach ($timeEntries as $projectName => $projectTimeEntries) {
-            $this->addArrayToBranch(['typPolozkyK' => 'typPolozky.text', 'nazev' => 'Projekt: ' . $projectName],
-                    'polozkyFaktury'); // Task Title as Heading/TextRow
-
+            $projectSum = _('Project') . ': ' . $projectName . ' ' . _('Duration') . ': ' . round(array_sum($projectTimeEntries) / 3600000, 3) . ' h';
+            $this->addArrayToBranch(['typPolozkyK' => 'typPolozky.text', 'nazev' => $projectSum], 'polozkyFaktury'); // Task Title as Heading/TextRow
             foreach ($projectTimeEntries as $nazev => $duration) {
-
                 $taskData = [
 //                            'id' => 'ext:redmine:'.$rowId,
                     'typPolozkyK' => 'typPolozky.katalog',
@@ -64,6 +60,7 @@ class FakturaVydana extends \FlexiPeeHP\FakturaVydana {
 
                 $this->addArrayToBranch($taskData, 'polozkyFaktury');
             }
+            $this->addStatusMessage($projectSum, count($projectTimeEntries) ? 'success' : 'warning');
         }
     }
 

@@ -111,6 +111,11 @@ class Importer extends FakturaVydana {
                 $this->until = new \DateTime("last day of -2 month");
                 break;
 
+            case 'two_months_ago':
+                $this->since = new \DateTime("first day of -3 month");
+                $this->until = new \DateTime("last day of -3 month");
+                break;
+
             default:
                 throw new \Ease\Exception('Unknown scope ' . $scope);
                 break;
@@ -168,7 +173,8 @@ class Importer extends FakturaVydana {
         ]);
 
         $created = $this->sync();
-        \FlexiPeeHP\Priloha::addAttachment($this, sprintf(_('timesheet_%s_%s.csv'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')), self::csvReport($invoiceItems), 'text/csv');
+        \FlexiPeeHP\Priloha::addAttachment($this, sprintf(_('tasks_timesheet_%s_%s.csv'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')), self::csvReport($invoiceItems), 'text/csv');
+        \FlexiPeeHP\Priloha::addAttachment($this, sprintf(_('projects_timesheet_%s_%s.csv'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')), self::cvsReportPerProject($invoiceItems), 'text/csv');
 
         $this->addStatusMessage($this->getDataValue('kod') . ': ' . $this->getApiUrl(), $created ? 'success' : 'danger');
         return $created;
@@ -182,7 +188,8 @@ class Importer extends FakturaVydana {
      * @return array data for CSV export
      */
     public static function csvData($timeEntries) {
-        $reportData[] = ['project', 'name', 'hours', 'duration'];
+        $columns = ['project', 'name', 'hours', 'duration'];
+        $reportData[] = array_combine($columns, $columns);
         foreach ($timeEntries as $projectName => $projectTimeEntries) {
             foreach ($projectTimeEntries as $nazev => $duration) {
                 $reportData[] = [
@@ -205,8 +212,32 @@ class Importer extends FakturaVydana {
      */
     public static function csvReport($timeEntries) {
         $csvData = self::csvData($timeEntries);
-        $csvRows[] = implode(';', array_keys(current($csvData)));
+        $csvRows[] = implode(';', (current($csvData)));
         foreach ($csvData as $dataRow) {
+            $csvRows[] = implode(';', $dataRow);
+        }
+        return implode("\n", $csvRows);
+    }
+
+    /**
+     * CSV Report with sums by project
+     * 
+     * @param  array $timeEntries
+     * 
+     * @return string
+     */
+    public static function cvsReportPerProject($timeEntries) {
+        $columns = ['project', 'hours', 'duration'];
+        $reportData[] = array_combine($columns, $columns);
+        foreach ($timeEntries as $projectName => $projectTimeEntries) {
+            $duration = array_sum($projectTimeEntries);
+            $reportData[] = [
+                'project' => $projectName,
+                'hours' => round($duration / 3600000, 3),
+                'duration' => self::formatMilliseconds($duration),
+            ];
+        }
+        foreach ($reportData as $dataRow) {
             $csvRows[] = implode(';', $dataRow);
         }
         return implode("\n", $csvRows);
