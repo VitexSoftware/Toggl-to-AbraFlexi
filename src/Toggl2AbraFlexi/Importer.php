@@ -1,13 +1,19 @@
 <?php
 
 /**
- * ToggleToFlexiBee - Import Handler.
+ * ToggleToAbraFlexi - Import Handler.
  *
  * @author Vítězslav Dvořák <info@vitexsoftware.cz>
  * @copyright  2020 Vitex Software
  */
 
-namespace Toggl2FlexiBee;
+namespace Toggl2AbraFlexi;
+
+use AbraFlexi\Priloha;
+use AbraFlexi\RO;
+use DateTime;
+use Ease\Exception;
+use Ease\Functions;
 
 /**
  * Description of Importer
@@ -18,13 +24,13 @@ class Importer extends FakturaVydana {
 
     /**
      *
-     * @var \DateTime 
+     * @var DateTime 
      */
     public $since = null;
 
     /**
      *
-     * @var \DateTime 
+     * @var DateTime 
      */
     public $until = null;
 
@@ -66,8 +72,8 @@ class Importer extends FakturaVydana {
     public function __construct($init = null, $options = []) {
         $this->defaultUrlParams;
         parent::__construct($init, $options);
-        $this->scopeToInterval(\Ease\Functions::cfg('TOGGLE_SCOPE'));
-        $this->apiKey = \Ease\Functions::cfg('TOGGLE_TOKEN');
+        $this->scopeToInterval(Functions::cfg('TOGGLE_SCOPE'));
+        $this->apiKey = Functions::cfg('TOGGLE_TOKEN');
         $this->toggl_client = \AJT\Toggl\TogglClient::factory(['api_key' => $this->apiKey]);
         $this->workspaces = $this->getWorkSpaces();
         $this->me = $this->toggl_client->getCurrentUser(['with_related_data' => true])->toArray();
@@ -80,7 +86,7 @@ class Importer extends FakturaVydana {
      * @return array
      */
     public function getWorkSpaces() {
-        $env = \Ease\Functions::cfg('TOGGLE_WORKSPACE');
+        $env = Functions::cfg('TOGGLE_WORKSPACE');
         $workspaces = [];
         if (empty($env)) {
             $workspacesRaw = $this->toggl_client->getWorkspaces(array());
@@ -97,34 +103,34 @@ class Importer extends FakturaVydana {
      * Prepare processing interval
      * 
      * @param string $scope 
-     * @throws \Ease\Exception
+     * @throws Exception
      */
     public function scopeToInterval($scope) {
         switch ($scope) {
             case 'last_month':
-                $this->since = new \DateTime("first day of last month");
-                $this->until = new \DateTime("last day of last month");
+                $this->since = new DateTime("first day of last month");
+                $this->until = new DateTime("last day of last month");
                 break;
 
             case 'previous_month':
-                $this->since = new \DateTime("first day of -2 month");
-                $this->until = new \DateTime("last day of -2 month");
+                $this->since = new DateTime("first day of -2 month");
+                $this->until = new DateTime("last day of -2 month");
                 break;
 
             case 'two_months_ago':
-                $this->since = new \DateTime("first day of -3 month");
-                $this->until = new \DateTime("last day of -3 month");
+                $this->since = new DateTime("first day of -3 month");
+                $this->until = new DateTime("last day of -3 month");
                 break;
 
             default:
-                throw new \Ease\Exception('Unknown scope ' . $scope);
+                throw new Exception('Unknown scope ' . $scope);
                 break;
         }
     }
 
     /**
      * 
-     * @return \Toggl2FlexiBee\FakturaVydana
+     * @return FakturaVydana
      */
     public function import() {
         $this->logBanner('Import Initiated. From: ' . $this->since->format('c') . ' To: ' . $this->until->format('c'));
@@ -141,7 +147,7 @@ class Importer extends FakturaVydana {
                         'until' => $this->until->format('Y-m-d'),
                         'display_hours' => 'decimal',
                         'workspace_id' => $workspace,
-                        'user_agent' => \Ease\Functions::cfg('APP_NAME'),
+                        'user_agent' => Functions::cfg('APP_NAME'),
                         'user_ids' => $this->me['data']['id'],
                     ])->toArray();
 
@@ -166,81 +172,23 @@ class Importer extends FakturaVydana {
         }
         $this->takeItemsFromArray($invoiceItems);
         $this->setData([
-            'typDokl' => \FlexiPeeHP\FlexiBeeRO::code(empty(\Ease\Functions::cfg('FLEXIBEE_TYP_FAKTURY')) ? 'FAKTURA' : \Ease\Functions::cfg('FLEXIBEE_TYP_FAKTURY')),
-            'firma' => \FlexiPeeHP\FlexiBeeRO::code(\Ease\Functions::cfg('FLEXIBEE_CUSTOMER')),
+            'typDokl' => RO::code(empty(Functions::cfg('ABRAFLEXI_TYP_FAKTURY')) ? 'FAKTURA' : Functions::cfg('ABRAFLEXI_TYP_FAKTURY')),
+            'firma' => RO::code(Functions::cfg('ABRAFLEXI_CUSTOMER')),
             'popis' => sprintf(_('Work from %s to %s'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')),
             'poznam' => 'Toggl Workspace: ' . implode(',', $this->workspaces)
         ]);
 
         $created = $this->sync();
-        \FlexiPeeHP\Priloha::addAttachment($this, sprintf(_('tasks_timesheet_%s_%s.csv'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')), self::csvReport($invoiceItems), 'text/csv');
-        \FlexiPeeHP\Priloha::addAttachment($this, sprintf(_('projects_timesheet_%s_%s.csv'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')), self::cvsReportPerProject($invoiceItems), 'text/csv');
+
+        $fromto = $this->since->format('Y-m-d') . '_' . $this->until->format('Y-m-d');
+        Priloha::addAttachment($this, sprintf(_('tasks_timesheet_%s.csv'), $fromto), Reporter::csvReport($invoiceItems), 'text/csv');
+        Priloha::addAttachment($this, sprintf(_('projects_timesheet_%s.csv'), $fromto), Reporter::cvsReportPerProject($invoiceItems), 'text/csv');
+
+        Priloha::addAttachment($this, sprintf(_('tasks_timesheet_%s.xlsx'), $fromto), Reporter::xlsReport($invoiceItems, $fromto), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        Priloha::addAttachment($this, sprintf(_('projects_timesheet_%s.xlsx'), $fromto), Reporter::xlsReportPerProject($invoiceItems, $fromto), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
         $this->addStatusMessage($this->getDataValue('kod') . ': ' . $this->getApiUrl(), $created ? 'success' : 'danger');
         return $created;
-    }
-
-    /**
-     * Prepare data for CSV Report
-     * 
-     * @param array $timeEntries 
-     * 
-     * @return array data for CSV export
-     */
-    public static function csvData($timeEntries) {
-        $columns = ['project', 'name', 'hours', 'duration'];
-        $reportData[] = array_combine($columns, $columns);
-        foreach ($timeEntries as $projectName => $projectTimeEntries) {
-            foreach ($projectTimeEntries as $nazev => $duration) {
-                $reportData[] = [
-                    'project' => $projectName,
-                    'name' => $nazev,
-                    'hours' => round($duration / 3600000, 3),
-                    'duration' => self::formatMilliseconds($duration),
-                ];
-            }
-        }
-        return $reportData;
-    }
-
-    /**
-     * Convert CSV data to CSV multiline string
-     * 
-     * @param array $timeEntries
-     * 
-     * @return string
-     */
-    public static function csvReport($timeEntries) {
-        $csvData = self::csvData($timeEntries);
-        $csvRows[] = implode(';', (current($csvData)));
-        foreach ($csvData as $dataRow) {
-            $csvRows[] = implode(';', $dataRow);
-        }
-        return implode("\n", $csvRows);
-    }
-
-    /**
-     * CSV Report with sums by project
-     * 
-     * @param  array $timeEntries
-     * 
-     * @return string
-     */
-    public static function cvsReportPerProject($timeEntries) {
-        $columns = ['project', 'hours', 'duration'];
-        $reportData[] = array_combine($columns, $columns);
-        foreach ($timeEntries as $projectName => $projectTimeEntries) {
-            $duration = array_sum($projectTimeEntries);
-            $reportData[] = [
-                'project' => $projectName,
-                'hours' => round($duration / 3600000, 3),
-                'duration' => self::formatMilliseconds($duration),
-            ];
-        }
-        foreach ($reportData as $dataRow) {
-            $csvRows[] = implode(';', $dataRow);
-        }
-        return implode("\n", $csvRows);
     }
 
 }

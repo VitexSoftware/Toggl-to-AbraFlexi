@@ -5,5 +5,5 @@
 
 override_dh_install:
 	dh_install
-	sed -i "s/\.\.\/vendor/\/var\/lib\/flexibee-toggl-importer/g" debian/flexibee-toggl-importer/usr/share/flexibee-toggl-importer/*.php
+	sed -i "s/\.\.\/vendor/\/var\/lib\/abraflexi-toggl-importer/g" debian/abraflexi-toggl-importer/usr/share/abraflexi-toggl-importer/*.php
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for flexibee-toggl-importer
+# postinst script for abraflexi-toggl-importer
 
 set -e
 
@@ -9,9 +9,9 @@ if [ "$1" = "configure" ]; then
     db_get composer/WEB_USER
     WEBUSER=$RET
 
-    mkdir -p /var/lib/composer /var/lib/flexibee-toggl-importer /usr/lib/flexibee-toggl-importer/
-    chown $WEBUSER:$WEBUSER /var/lib/composer /var/lib/flexibee-toggl-importer /usr/lib/flexibee-toggl-importer/ -R
-    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer --no-dev -o install -d /usr/lib/flexibee-toggl-importer/'
+    mkdir -p /var/lib/composer /var/lib/abraflexi-toggl-importer /usr/lib/abraflexi-toggl-importer/
+    chown $WEBUSER:$WEBUSER /var/lib/composer /var/lib/abraflexi-toggl-importer /usr/lib/abraflexi-toggl-importer/ -R
+    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer --no-dev -o install -d /usr/lib/abraflexi-toggl-importer/'
 
 fi
 

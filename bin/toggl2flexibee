@@ -1,4 +1,4 @@
 #!/bin/bash
-php -f /usr/share/flexibee-toggl-importer/importer.php
+php -f /usr/share/abraflexi-toggl-importer/importer.php
 
 

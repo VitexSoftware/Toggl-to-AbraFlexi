@@ -1,16 +1,16 @@
-Source: flexibee-toggl-importer
+Source: abraflexi-toggl-importer
 Section: web
 Priority: optional
 Maintainer: "Vítězslav Dvořák" <info@vitexsoftware.cz>
 Build-Depends: debhelper (>=11~),composer
 Standards-Version: 4.1.4
-Homepage: https://github.com/Vitexus/Toggl-to-FlexiBee
+Homepage: https://github.com/Vitexus/Toggl-to-AbraFlexi
 
-Package: flexibee-toggl-importer
+Package: abraflexi-toggl-importer
 Multi-Arch: foreign
-Depends: ${misc:Depends}, php-cli, php-imap, php-zip, php-spojenet-flexibee
-Suggests: flexibee-server,php-flexibee-config, flexibee-digest, flexibee-matcher, flexibee-reminder, flexibee-contract-invoices, multi-flexibee-setup, toggldesktop 
+Depends: ${misc:Depends}, php-cli, php-imap, php-zip, php-spojenet-abraflexi
+Suggests: abraflexi-server,php-abraflexi-config, abraflexi-digest, abraflexi-matcher, abraflexi-reminder, abraflexi-contract-invoices, multi-abraflexi-setup, toggldesktop 
 Architecture: all
-Description: issue FlexiBee invoice using Toggl Time Entries
- Commandline tool i used to issue FlexiBee invoice using Toggl API. Process all 
+Description: issue AbraFlexi invoice using Toggl Time Entries
+ Commandline tool i used to issue AbraFlexi invoice using Toggl API. Process all 
  time records within given scope into invoice with items grouped by Clients.

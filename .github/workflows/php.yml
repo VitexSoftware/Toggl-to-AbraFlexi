@@ -39,12 +39,12 @@ jobs:
     - name: build-deb-action
       uses: jiro4989/build-deb-action@v2
       with:
-        package: flexibee-toggl-importer
+        package: abraflexi-toggl-importer
         package_root: .
         maintainer: '"Vítězslav Dvořák" <info@vitexsoftware.cz>'
         version: ${{ github.ref }}
         arch: all
-        desc:  issue FlexiBee invoice using Toggl Time Entries
+        desc:  issue AbraFlexi invoice using Toggl Time Entries
         
   build-linux-packages:
     runs-on: ubuntu-latest

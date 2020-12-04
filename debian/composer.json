@@ -1,6 +1,6 @@
 {
-    "name": "deb/flexibee-toggl-importer",
-    "description": "issue FlexiBee invoice using Toggl Time Entries",
+    "name": "deb/abraflexi-toggl-importer",
+    "description": "issue AbraFlexi invoice using Toggl Time Entries",
     "type": "project",
     "version": "0.8",
     "authors": [
@@ -11,18 +11,18 @@
     ],
     "minimum-stability": "dev",
     "config": {
-        "vendor-dir": "/var/lib/flexibee-toggl-importer"
+        "vendor-dir": "/var/lib/abraflexi-toggl-importer"
     },
     "require": {
         "ajt/guzzle-toggl": "*",
-        "deb/flexibee": "*",
-        "deb/flexibee-bricks": "*",
+        "deb/abraflexi": "*",
+        "deb/abraflexi-bricks": "*",
         "deb/ease-twbootstrap4": "*",
         "vlucas/phpdotenv": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Toggl2FlexiBee\\": "/usr/share/flexibee-toggl-importer/Toggl2FlexiBee/"
+            "Toggl2AbraFlexi\\": "/usr/share/abraflexi-toggl-importer/Toggl2AbraFlexi/"
         }
     },
     "repositories": [
@@ -32,7 +32,7 @@
         },
         {
             "type": "path",
-            "url": "/usr/share/php/FlexiPeeHP"
+            "url": "/usr/share/php/AbraFlexi"
         },
         {
             "type": "path",

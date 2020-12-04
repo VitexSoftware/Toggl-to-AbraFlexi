@@ -1,4 +1,4 @@
 bin/*			usr/bin
-src/*.php		usr/share/flexibee-toggl-importer/
-src/Toggl2FlexiBee/*.php 	usr/share/flexibee-toggl-importer/Toggl2FlexiBee
-debian/composer.json	usr/lib/flexibee-toggl-importer/
+src/*.php		usr/share/abraflexi-toggl-importer/
+src/Toggl2AbraFlexi/*.php 	usr/share/abraflexi-toggl-importer/Toggl2AbraFlexi
+debian/composer.json	usr/lib/abraflexi-toggl-importer/

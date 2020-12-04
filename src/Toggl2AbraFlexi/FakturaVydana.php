@@ -1,33 +1,35 @@
 <?php
 
-namespace Toggl2FlexiBee;
+namespace Toggl2AbraFlexi;
 
 use Ease\Shared;
 
 /**
- * ToggleToFlexiBee - Invoice Handler.
+ * ToggleToAbraFlexi - Invoice Handler.
  *
  * @author Vítězslav Dvořák <info@vitexsoftware.cz>
  * @copyright  2020 Vitex Software
  */
-class FakturaVydana extends \FlexiPeeHP\FakturaVydana {
+class FakturaVydana extends \AbraFlexi\FakturaVydana {
 
     /**
-     * FlexiBee Invoice
+     * AbraFlexi Invoice
      *
      * @param array $options Connection settings override
      */
     public function __construct($init = null, $options = []) {
         parent::__construct($init, $options);
         if (!array_key_exists('typDokl', $options)) {
-            $this->setDataValue('typDokl', self::code(\Ease\Functions::cfg('FLEXIBEE_TYP_FAKTURY')));
+            $this->setDataValue('typDokl', self::code(\Ease\Functions::cfg('ABRAFLEXI_TYP_FAKTURY')));
         }
     }
 
     /**
+     * Format milliseconds time
      * 
-     * @param type $milliseconds
-     * @return type
+     * @param double $milliseconds
+     * 
+     * @return string
      */
     public static function formatMilliseconds($milliseconds) {
         $seconds = floor($milliseconds / 1000);
@@ -56,7 +58,7 @@ class FakturaVydana extends \FlexiPeeHP\FakturaVydana {
                     'typPolozkyK' => 'typPolozky.katalog',
                     'nazev' => self::formatMilliseconds($duration) . ' ' . $nazev,
                     'mnozMj' => round($duration / 3600000, 3),
-                    'cenik' => self::code(Shared::instanced()->getConfigValue('FLEXIBEE_CENIK'))];
+                    'cenik' => self::code(Shared::instanced()->getConfigValue('ABRAFLEXI_CENIK'))];
 
                 $this->addArrayToBranch($taskData, 'polozkyFaktury');
             }

@@ -1,25 +1,24 @@
 {
-    "name": "vitexsoftware/flexibee-toggl-importer",
-    "description": "issue FlexiBee invoice using Toggl Time Entries",
+    "name": "vitexsoftware/abraflexi-toggl-importer",
+    "description": "issue AbraFlexi invoice using Toggl Time Entries",
     "authors": [
         {
             "name": "Vitex",
             "email": "info@vitexsoftware.cz"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "ajt/guzzle-toggl": "*",
-        "vitexsoftware/flexibee-bricks": "*",
-        "vitexsoftware/ease-twbootstrap4": "*"
+        "vitexsoftware/flexibee-bricks": "dev-abraflexi",
+        "vitexsoftware/ease-twbootstrap4": "*",
+        "phpoffice/phpspreadsheet": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Toggl2FlexiBee\\": "src/Toggl2FlexiBee/",
-            "Toggl2FlexiBee\\ui\\": "src/Toggl2FlexiBee/ui/",
-            "Test\\Toggl2FlexiBee\\": "testing/src/Toggl2FlexiBee/"
+            "Toggl2AbraFlexi\\": "src/Toggl2AbraFlexi/",
+            "Toggl2AbraFlexi\\ui\\": "src/Toggl2AbraFlexi/ui/",
+            "Test\\Toggl2AbraFlexi\\": "testing/src/Toggl2AbraFlexi/"
         }
-    },
-    "require-dev": {
     }
 }
