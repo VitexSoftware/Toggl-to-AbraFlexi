@@ -27,11 +27,13 @@ ABRAFLEXI_COMPANY="demo"
 ABRAFLEXI_CUSTOMER="DEMO"
 ABRAFLEXI_TYP_FAKTURY="FAKTURA"
 ABRAFLEXI_CENIK="WORK"
+
+REPORTS_DIR="/tmp/"
 ```
 
 If workspace number is empty, use all availble workspaces 
 
-Scope can be: **last_month** or  **previous_month**, **two_months_ago**
+Scope can be: **last_month** or  **previous_month**, **two_months_ago**, **last_two_months**
 
 Running
 -------

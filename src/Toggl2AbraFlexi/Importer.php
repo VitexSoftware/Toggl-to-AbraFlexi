@@ -112,6 +112,11 @@ class Importer extends FakturaVydana {
                 $this->until = new DateTime("last day of last month");
                 break;
 
+            case 'last_two_months':
+                $this->since = (new DateTime("first day of last month"))->modify('-1 month');
+                $this->until = (new DateTime("last day of last month"));
+                break;
+
             case 'previous_month':
                 $this->since = new DateTime("first day of -2 month");
                 $this->until = new DateTime("last day of -2 month");
@@ -126,6 +131,8 @@ class Importer extends FakturaVydana {
                 throw new Exception('Unknown scope ' . $scope);
                 break;
         }
+        $this->since = $this->since->setTime(0, 0);
+        $this->until = $this->until->setTime(0, 0);
     }
 
     /**
@@ -150,8 +157,6 @@ class Importer extends FakturaVydana {
                         'user_agent' => Functions::cfg('APP_NAME'),
                         'user_ids' => $this->me['data']['id'],
                     ])->toArray();
-
-
 
             foreach ($detailsData['data'] as $detail) {
                 $project = empty($detail['project']) ? _('No Project') : $detail['project'];
@@ -189,6 +194,69 @@ class Importer extends FakturaVydana {
 
         $this->addStatusMessage($this->getDataValue('kod') . ': ' . $this->getApiUrl(), $created ? 'success' : 'danger');
         return $created;
+    }
+
+    /**
+     * 
+     * @return FakturaVydana
+     */
+    public function report() {
+        $this->logBanner('Report Initiated. From: ' . $this->since->format('c') . ' To: ' . $this->until->format('c'));
+
+
+        $invoiceItems = [];
+        $projects = [];
+        $durations = [];
+
+        foreach ($this->workspaces as $wsname => $workspace) {
+            $this->addStatusMessage('Workspace: ' . (is_string($wsname) ? $wsname . ' ' : '' ) . $workspace, 'info');
+            $detailsData = $this->reports_client->Details([
+                        'since' => $this->since->format('Y-m-d'),
+                        'until' => $this->until->format('Y-m-d'),
+                        'display_hours' => 'decimal',
+                        'workspace_id' => $workspace,
+                        'user_agent' => Functions::cfg('APP_NAME'),
+                        'user_ids' => $this->me['data']['id'],
+                    ])->toArray();
+
+
+
+            foreach ($detailsData['data'] as $detail) {
+                $project = empty($detail['project']) ? _('No Project') : $detail['project'];
+                $task = $detail['description'];
+                $duration = $detail['dur'];
+
+                $durations[] = FakturaVydana::formatMilliseconds($duration) . ' ' . $project . ' ' . $task;
+
+                if (!array_key_exists($project, $invoiceItems)) {
+                    $invoiceItems[$project] = [];
+                }
+                if (!array_key_exists($task, $invoiceItems[$project])) {
+                    $invoiceItems[$project][$task] = 0;
+                }
+                $invoiceItems[$project][$task] += $duration;
+                $projects[$project] = $project;
+            }
+        }
+//            'popis' => sprintf(_('Work from %s to %s'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')),
+//            'poznam' => 'Toggl Workspace: ' . implode(',', $this->workspaces)
+
+        $fromto = $this->since->format('Y-m-d') . '_' . $this->until->format('Y-m-d');
+        $saveto = \Ease\Functions::cfg('REPORTS_DIR');
+
+        $tasksCsv = $saveto . sprintf(_('tasks_timesheet_%s.csv'), $fromto);
+        $this->addStatusMessage($tasksCsv, file_put_contents($tasksCsv, Reporter::csvReport($invoiceItems)) ? 'success' : 'error');
+
+        $projectsCsv = $saveto . sprintf(_('projects_timesheet_%s.csv'), $fromto);
+        $this->addStatusMessage($projectsCsv, file_put_contents($projectsCsv, Reporter::cvsReportPerProject($invoiceItems)) ? 'success' : 'error');
+
+        $tasksXLS = $saveto . sprintf(_('tasks_timesheet_%s.xlsx'), $fromto);
+        $this->addStatusMessage($tasksXLS, file_put_contents($tasksXLS, Reporter::xlsReport($invoiceItems, $fromto)) ? 'success' : 'error');
+
+        $projectsXLS = $saveto . sprintf(_('projects_timesheet_%s.xlsx'), $fromto);
+        $this->addStatusMessage($projectsXLS, file_put_contents($projectsXLS, Reporter::xlsReportPerProject($invoiceItems, $fromto)) ? 'success' : 'error');
+
+        return;
     }
 
 }

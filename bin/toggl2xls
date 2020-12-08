@@ -1,0 +1,4 @@
+#!/bin/bash
+php -f /usr/share/abraflexi-toggl-importer/togglToXLS.php
+
+
