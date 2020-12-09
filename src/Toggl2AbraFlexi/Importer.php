@@ -127,6 +127,11 @@ class Importer extends FakturaVydana {
                 $this->until = new DateTime("last day of -3 month");
                 break;
 
+            case 'this_year':
+                $this->since = new DateTime('first day of January ' . date('Y'));
+                $this->until = new DateTime("last day of December" . date('Y'));
+                break;
+
             default:
                 throw new Exception('Unknown scope ' . $scope);
                 break;
@@ -142,21 +147,13 @@ class Importer extends FakturaVydana {
     public function import() {
         $this->logBanner('Import Initiated. From: ' . $this->since->format('c') . ' To: ' . $this->until->format('c'));
 
-
         $invoiceItems = [];
         $projects = [];
         $durations = [];
 
         foreach ($this->workspaces as $wsname => $workspace) {
             $this->addStatusMessage('Workspace: ' . (is_string($wsname) ? $wsname . ' ' : '' ) . $workspace, 'info');
-            $detailsData = $this->reports_client->Details([
-                        'since' => $this->since->format('Y-m-d'),
-                        'until' => $this->until->format('Y-m-d'),
-                        'display_hours' => 'decimal',
-                        'workspace_id' => $workspace,
-                        'user_agent' => Functions::cfg('APP_NAME'),
-                        'user_ids' => $this->me['data']['id'],
-                    ])->toArray();
+            $detailsData = $this->getAllDetailPages($workspace);
 
             foreach ($detailsData['data'] as $detail) {
                 $project = empty($detail['project']) ? _('No Project') : $detail['project'];
@@ -197,31 +194,69 @@ class Importer extends FakturaVydana {
     }
 
     /**
+     * One page of Report
+     * 
+     * @param int $workspace
+     * @param int $pageno
+     * 
+     * @return array
+     */
+    public function getDetailsPage($workspace, $pageno = 1) {
+        return $this->reports_client->Details([
+                    'page' => $pageno,
+                    'since' => $this->since->format('Y-m-d'),
+                    'until' => $this->until->format('Y-m-d'),
+                    'display_hours' => 'decimal',
+                    'workspace_id' => $workspace,
+                    'user_agent' => Functions::cfg('APP_NAME'),
+                    'user_ids' => $this->me['data']['id'],
+                ])->toArray();
+    }
+
+    /**
+     * Get full set of results 
+     * 
+     * @param string $workspace
+     * 
+     * @return array
+     */
+    public function getAllDetailPages($workspace) {
+        $result = $this->getDetailsPage($workspace);
+        $pages = ceil($result['total_count'] / $result['per_page']);
+        $result['data'] = \Ease\Functions::reindexArrayBy($result['data'], 'id');
+
+        if ($pages > 1) {
+            $page = 2;
+            while ($page <= $pages) {
+                sleep(1);
+                $this->addStatusMessage(sprintf(_('reading page %s of %s'), $page, $pages), 'debug');
+                $nextpage = $this->getDetailsPage($workspace, $page++);
+                foreach ($nextpage['data'] as $record) {
+                    $result['data'][$record['id']] = $record;
+                }
+            };
+        }
+        return $result;
+    }
+
+    /**
      * 
      * @return FakturaVydana
      */
     public function report() {
         $this->logBanner('Report Initiated. From: ' . $this->since->format('c') . ' To: ' . $this->until->format('c'));
-
-
+        $entries = 0;
         $invoiceItems = [];
         $projects = [];
         $durations = [];
 
         foreach ($this->workspaces as $wsname => $workspace) {
             $this->addStatusMessage('Workspace: ' . (is_string($wsname) ? $wsname . ' ' : '' ) . $workspace, 'info');
-            $detailsData = $this->reports_client->Details([
-                        'since' => $this->since->format('Y-m-d'),
-                        'until' => $this->until->format('Y-m-d'),
-                        'display_hours' => 'decimal',
-                        'workspace_id' => $workspace,
-                        'user_agent' => Functions::cfg('APP_NAME'),
-                        'user_ids' => $this->me['data']['id'],
-                    ])->toArray();
 
-
+            $detailsData = $this->getAllDetailPages($workspace);
 
             foreach ($detailsData['data'] as $detail) {
+                $entries++;
                 $project = empty($detail['project']) ? _('No Project') : $detail['project'];
                 $task = $detail['description'];
                 $duration = $detail['dur'];
@@ -240,6 +275,8 @@ class Importer extends FakturaVydana {
         }
 //            'popis' => sprintf(_('Work from %s to %s'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')),
 //            'poznam' => 'Toggl Workspace: ' . implode(',', $this->workspaces)
+
+        $this->addStatusMessage($entries . ' entries processed');
 
         $fromto = $this->since->format('Y-m-d') . '_' . $this->until->format('Y-m-d');
         $saveto = \Ease\Functions::cfg('REPORTS_DIR');

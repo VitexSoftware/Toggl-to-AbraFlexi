@@ -125,6 +125,12 @@ class Reporter {
         return self::xslsxString($spreadsheet);
     }
 
+    /**
+     * 
+     * @param type $spreadsheet
+     * 
+     * @return string
+     */
     public static function xslsxString($spreadsheet) {
         $writer = new Xlsx($spreadsheet);
         $filename = sys_get_temp_dir() . '/' . Functions::randomString() . '.xlsx';
@@ -167,10 +173,9 @@ class Reporter {
                 ->setSize(10)
                 ->setColor(new Color(Color::COLOR_DARKGREEN));
 
-
         $sheet = $spreadSheet->getActiveSheet();
         foreach ($labels as $hid => $val) {
-            $sheet->setCellValueByColumnAndRow($hid+1, 1, $val);
+            $sheet->setCellValueByColumnAndRow($hid + 1, 1, $val);
         }
     }
 
@@ -188,7 +193,7 @@ class Reporter {
         $sheet = $spreadSheet->getActiveSheet();
         foreach ($data as $rowId => $values) {
             foreach (array_values($values) as $colId => $value) {
-                $sheet->setCellValueByColumnAndRow($colId+1, $rowId + 2, $value);
+                $sheet->setCellValueByColumnAndRow($colId + 1, $rowId + 2, $value);
             }
         }
     }
