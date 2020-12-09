@@ -132,6 +132,22 @@ class Importer extends FakturaVydana {
                 $this->until = new DateTime("last day of December" . date('Y'));
                 break;
 
+            case 'January':  //1
+            case 'February': //2
+            case 'March':    //3
+            case 'April':    //4
+            case 'May':      //5
+            case 'June':     //6
+            case 'July':     //7
+            case 'August':   //8
+            case 'September'://9
+            case 'October':  //10
+            case 'November': //11
+            case 'December': //12
+                $this->since = new DateTime('first day of ' . $scope . ' ' . date('Y'));
+                $this->until = new DateTime('last day of ' . $scope . ' ' . date('Y'));
+                break;
+
             default:
                 throw new Exception('Unknown scope ' . $scope);
                 break;
@@ -223,7 +239,12 @@ class Importer extends FakturaVydana {
     public function getAllDetailPages($workspace) {
         $result = $this->getDetailsPage($workspace);
         $pages = ceil($result['total_count'] / $result['per_page']);
-        $result['data'] = \Ease\Functions::reindexArrayBy($result['data'], 'id');
+        $this->addStatusMessage(sprintf(_('reading page %s of %s'), 1, $pages), 'debug');
+        $records = [];
+        foreach ($result['data'] as $record) {
+            $records[$record['start'] . '-' . $record['end']] = $record;
+        }
+        $result['data'] = $records;
 
         if ($pages > 1) {
             $page = 2;
@@ -232,7 +253,7 @@ class Importer extends FakturaVydana {
                 $this->addStatusMessage(sprintf(_('reading page %s of %s'), $page, $pages), 'debug');
                 $nextpage = $this->getDetailsPage($workspace, $page++);
                 foreach ($nextpage['data'] as $record) {
-                    $result['data'][$record['id']] = $record;
+                    $result['data'][$record['start'] . '-' . $record['end']] = $record;
                 }
             };
         }

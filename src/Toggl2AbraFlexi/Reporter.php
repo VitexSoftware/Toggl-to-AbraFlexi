@@ -73,6 +73,7 @@ class Reporter {
         self::header($spreadsheet, array_keys(current($csvData)));
         array_shift($csvData);
         self::values($spreadsheet, $csvData);
+        self::addSum($spreadsheet, 3, $csvData);
         return self::xslsxString($spreadsheet);
     }
 
@@ -157,6 +158,10 @@ class Reporter {
                 ->setDescription("Timesheet report " . $fromto)
                 ->setKeywords("timesheet toggl abraflexi invoice")
                 ->setCategory("accounting");
+
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(60);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(60);
+
         return $spreadsheet;
     }
 
@@ -196,6 +201,18 @@ class Reporter {
                 $sheet->setCellValueByColumnAndRow($colId + 1, $rowId + 2, $value);
             }
         }
+    }
+
+    /**
+     * Add times sum
+     * 
+     * @param Spreadsheet $spreadSheet
+     * @param int $col
+     * @param array $data
+     */
+    public static function addSum($spreadSheet, $col, $data) {
+        $c = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col);
+        $spreadSheet->getActiveSheet()->setCellValue($c . (count($data) + 2), '=SUM(' . $c . '2:' . $c . (count($data) + 1) . ')');
     }
 
 }
