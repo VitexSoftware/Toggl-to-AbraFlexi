@@ -189,11 +189,13 @@ class Importer extends FakturaVydana {
             }
         }
         $this->takeItemsFromArray($invoiceItems);
+
+        $cc = empty(\Ease\Functions::cfg('ABRAFLEXI_CC')) ? '' : "\n".'cc:' . \Ease\Functions::cfg('ABRAFLEXI_CC');
         $this->setData([
             'typDokl' => RO::code(empty(Functions::cfg('ABRAFLEXI_TYP_FAKTURY')) ? 'FAKTURA' : Functions::cfg('ABRAFLEXI_TYP_FAKTURY')),
             'firma' => RO::code(Functions::cfg('ABRAFLEXI_CUSTOMER')),
             'popis' => sprintf(_('Work from %s to %s'), $this->since->format('Y-m-d'), $this->until->format('Y-m-d')),
-            'poznam' => 'Toggl Workspace: ' . implode(',', $this->workspaces)
+            'poznam' => 'Toggl Workspace: ' . implode(',', $this->workspaces) . $cc
         ]);
 
         $created = $this->sync();

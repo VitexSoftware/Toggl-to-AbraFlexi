@@ -27,6 +27,8 @@ ABRAFLEXI_COMPANY="demo"
 ABRAFLEXI_CUSTOMER="DEMO"
 ABRAFLEXI_TYP_FAKTURY="FAKTURA"
 ABRAFLEXI_CENIK="WORK"
+ABRAFLEXI_CC=some@recipient.com                 - into "poznam" field (abraflexi-mailer can handle it)
+INVOICE_DOWNLOAD=true                           - into "reports" directory
 
 REPORTS_DIR="/tmp/"
 ```
