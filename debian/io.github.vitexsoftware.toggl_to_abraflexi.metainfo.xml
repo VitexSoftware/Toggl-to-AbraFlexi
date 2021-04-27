@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+  <id>io.github.vitexsoftware.toggl_to_abraflexi</id>
+  
+  <name>Toggl to AbraFlexi</name>
+  <summary>process time records into invoice</summary>
+  
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  
+  <description>
+    <p>
+      Process all time records within given scope into invoice with items grouped by Clients + Also the CSV Timesheet is attached to Invoice.
+    </p>
+  </description>
+  
+  <icon type="stock">abraflexi-toggl-importer</icon>
+  
+  <categories>
+    <category>Office</category>
+    <category>Adult</category>
+  </categories>
+  
+  <provides>
+    <binary>toggl2abraflexi</binary>
+  </provides>
+</component>
+

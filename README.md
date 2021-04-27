@@ -1,5 +1,7 @@
 Toggl to AbraFlexi
-=================
+==================
+
+![Logo](abraflexi-toggl-importer.svg?raw=true)
 
 
 Process all time records within given scope into invoice with items grouped by Clients + Also the CSV Timesheet is attached to Invoice.
