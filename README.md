@@ -35,7 +35,7 @@ REPORTS_DIR="/tmp/"
 
 If workspace number is empty, use all availble workspaces 
 
-Scope can be: **last_month** or  **previous_month**, **two_months_ago**, **last_two_months**
+Scope can be: **last_month** or  **previous_month**, **two_months_ago**, **last_two_months**, **current_month***
 Or month name:     January    February    March    April    May    June    July    August    September    October    November    December
 
 Running

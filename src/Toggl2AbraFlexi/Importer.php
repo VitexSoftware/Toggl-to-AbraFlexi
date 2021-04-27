@@ -107,6 +107,10 @@ class Importer extends FakturaVydana {
      */
     public function scopeToInterval($scope) {
         switch ($scope) {
+            case 'current_month':
+                $this->since = new DateTime("first day of this month");
+                $this->until = new DateTime();
+                break;
             case 'last_month':
                 $this->since = new DateTime("first day of last month");
                 $this->until = new DateTime("last day of last month");

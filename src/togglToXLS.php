@@ -15,7 +15,7 @@ if (file_exists(dirname(__DIR__) . '/.env')) {
     \Ease\Shared::instanced()->loadConfig(dirname(__DIR__) . '/.env',true);
 }
 
-new \Ease\Locale('cs_CZ', '../i18n', 'toggl2abraflexi');
+new \Ease\Locale('cs_CZ', '../i18n', 'toggl-to-abraflexi');
 
 define('EASE_LOOGER', 'console|syslog');
 

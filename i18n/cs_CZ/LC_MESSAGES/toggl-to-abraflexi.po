@@ -1,0 +1,62 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2021-03-01 21:34+0100\n"
+"PO-Revision-Date: 2021-03-01 21:39+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"X-Poedit-Basepath: ../../../src\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Toggl2AbraFlexi/FakturaVydana.php:53
+msgid "Project"
+msgstr "Projekt"
+
+#: Toggl2AbraFlexi/FakturaVydana.php:53
+msgid "Duration"
+msgstr "Trvání"
+
+#: Toggl2AbraFlexi/Importer.php:175 Toggl2AbraFlexi/Importer.php:283
+msgid "No Project"
+msgstr "Bez projektu"
+
+#: Toggl2AbraFlexi/Importer.php:197
+#, php-format
+msgid "Work from %s to %s"
+msgstr "Práce od %s do %s"
+
+#: Toggl2AbraFlexi/Importer.php:204 Toggl2AbraFlexi/Importer.php:307
+#, php-format
+msgid "tasks_timesheet_%s.csv"
+msgstr "vykaz_ukolu_%s.csv"
+
+#: Toggl2AbraFlexi/Importer.php:205 Toggl2AbraFlexi/Importer.php:310
+#, php-format
+msgid "projects_timesheet_%s.csv"
+msgstr "vykaz_dle_projektu_%s.csv"
+
+#: Toggl2AbraFlexi/Importer.php:207 Toggl2AbraFlexi/Importer.php:313
+#, php-format
+msgid "tasks_timesheet_%s.xlsx"
+msgstr "vykaz_ukolu_%s.xlsx"
+
+#: Toggl2AbraFlexi/Importer.php:208 Toggl2AbraFlexi/Importer.php:316
+#, php-format
+msgid "projects_timesheet_%s.xlsx"
+msgstr "vykaz_dle_projektu_%s.xlsx"
+
+#: Toggl2AbraFlexi/Importer.php:244 Toggl2AbraFlexi/Importer.php:255
+#, php-format
+msgid "reading page %s of %s"
+msgstr "čtení stránky %s z %s"
+
+#: togglToAbraFlexi.php:26 togglToAbraFlexi.php:27
+#, php-format
+msgid "Invoice saved as %s"
+msgstr "Faktura uložena jako %s"
