@@ -6,7 +6,7 @@
     "authors": [
         {
             "name": "Vítězslav Dvořák",
-            "toggl": "info@vitexsoftware.cz"
+            "email": "info@vitexsoftware.cz"
         }
     ],
     "minimum-stability": "dev",
@@ -16,9 +16,7 @@
     "require": {
         "ajt/guzzle-toggl": "*",
         "deb/abraflexi": "*",
-        "deb/abraflexi-bricks": "*",
-        "deb/ease-twbootstrap4": "*",
-        "vlucas/phpdotenv": "dev-master"
+        "deb/abraflexi-bricks": "*"
     },
     "autoload": {
         "psr-4": {
@@ -32,12 +30,21 @@
         },
         {
             "type": "path",
+            "url": "/usr/share/php/EaseHtml/"
+        },
+        {
+            "type": "path",
             "url": "/usr/share/php/AbraFlexi"
         },
         {
             "type": "path",
             "url": "/usr/share/php/EaseBricks"
         },
+        {
+            "type": "path",
+            "url": "/usr/share/php/AbraFlexiBricks/"
+        },
+
         {
             "type": "path",
             "url": "/usr/share/php/EaseTWB4"

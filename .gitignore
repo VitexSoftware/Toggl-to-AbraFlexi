@@ -3,3 +3,8 @@
 /.env
 /debian/.debhelper/
 /reports/
+/debian/abraflexi-toggl-importer.debhelper.log
+/debian/abraflexi-toggl-importer.substvars
+/debian/debhelper-build-stamp
+/debian/files
+/debian/abraflexi-toggl-importer/
