@@ -57,6 +57,9 @@ sudo apt update
 sudo apt install abraflexi-toggl-importer
 ```	    
 
+See also:
 
+ * https://github.com/sizek-cz/Kimai2AbraFlexi
+ * https://github.com/VitexSoftware/Redmine2AbraFlexi
 
 
